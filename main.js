@@ -10,4 +10,4 @@ const key = process.env.key;
 console.log(key);
 
 
-client.login('NzQ4MzA2NTU5NDYwOTY2NDMy.X0bgyg.AbKYUgLQM9UuGK9j-3tcB61fAeM');
+client.login(key);
