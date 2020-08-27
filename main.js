@@ -21,10 +21,13 @@ client.on('message', message =>{
 
    if (message.channel.name === ("cat-jam")) {
     if (message.content.includes(":catJAM:")){
-        if(getRandomInt(0, 2) === 1) {
-        message.channel.send("<a:catJAM:747916921785286711>")
+        var random = getRandomInt(0, 100);
+        if(random >= 52) {
+        message.channel.send("<a:catJAM:747916921785286711>");
+        } else if (random >= 6) {
+        message.react('747916921785286711');
         } else {
-        message.react('747916921785286711')
+            message.channel.send("https://tenor.com/view/cat-jam-fast-gif-18134927");
         }
     }
        }
@@ -40,7 +43,7 @@ client.on('message', message =>{
     if(command === 'ping'){
         message.channel.send('pong!');
     }
-    if (command === 'findseed' && message.channel.name === "findseed"){
+    if (command === 'findseed' && message.channel.name === "findseed" || "find-seed"){
     var i = 0;
     var eyes = 0;
     for(i = 0; i < 12; i++) {
