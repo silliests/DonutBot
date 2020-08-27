@@ -16,7 +16,23 @@ function getRandomInt(min, max) {
   }
 
 client.on('message', message =>{
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
+    if (message.author.bot)return;
+
+
+   if (message.channel.name === ("cat-jam")) {
+    if (message.content.includes(":catJAM:")){
+        if(getRandomInt(0, 2) === 1) {
+        message.channel.send("<a:catJAM:747916921785286711>")
+        } else {
+        message.react('747916921785286711')
+        }
+    }
+       }
+   
+
+
+
+    if(!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
@@ -24,7 +40,7 @@ client.on('message', message =>{
     if(command === 'ping'){
         message.channel.send('pong!');
     }
-    if (command === 'findseed'){
+    if (command === 'findseed' && message.channel.name === "findseed"){
     var i = 0;
     var eyes = 0;
     for(i = 0; i < 12; i++) {
