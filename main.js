@@ -2,8 +2,16 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
+function warnUser(user) {
+    client.channels.cache.get('748683141467734036').send("<@" + user + ">" + " please don't talk in the counting channel or put 2 numbers in a row. <a:catJAM:747916921785286711>");
+    client.channels.cache.get('748683141467734036').send("Please delete your message <a:catJAM:747916921785286711>")
+}
+
 client.once('ready', () => {
     console.log('Donut Bot is online!')
+    client.user.setActivity('robot things...');
+
+
 })
 require('dotenv').config();
 const key = process.env.key;
@@ -15,11 +23,13 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
+  var lastCount = 0;
+  var lastUser = "null";
 client.on('message', message =>{
     if (message.author.bot)return;
 
 
-   if (message.channel.name === ("cat-jam")) {
+   if (message.channel.name === "cat-jam") {
     if (message.content.includes(":catJAM:")){
         var random = getRandomInt(0, 100);
         if(random >= 52) {
@@ -31,10 +41,34 @@ client.on('message', message =>{
         }
     }
        }
-   
+      if(message.channel.name.startsWith("╠counting")) {
+    var warned = false;
+       const args = message.content.slice(prefix.length).split(/ +/);
+       var count = parseInt(args);
+       var user = message.author.id;
 
-
-
+       if (lastUser === "null") {
+           lastUser = user;
+       } else {
+           if (lastUser = user) {
+               warnUser(message.author.id);
+               warned = true;
+           }
+           lastUser = user;
+       }
+if (warned === false) {
+       if (lastCount === 0) {
+           lastCount = count;
+       } else {
+           if(count === (lastCount + 1)) {
+              
+           } else {
+               warnUser(message.author.id);
+           }
+           lastCount = count;
+       }
+      }
+    }
     if(!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
