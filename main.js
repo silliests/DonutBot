@@ -2,8 +2,13 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-function warnUser(user) {
-    client.channels.cache.get('748683141467734036').send("<@" + user + ">" + " please don't talk in the counting channel or put 2 numbers in a row. <a:catJAM:747916921785286711>");
+function warnUser1(user) {
+    client.channels.cache.get('748683141467734036').send("<@" + user + ">" + " please don't talk in the counting channel. <a:catJAM:747916921785286711>");
+    client.channels.cache.get('748683141467734036').send("Please delete your message <a:catJAM:747916921785286711>")
+}
+
+function warnUser2(user) {
+    client.channels.cache.get('748683141467734036').send("<@" + user + ">" + " please don't put 2 numbers in a row. <a:catJAM:747916921785286711>");
     client.channels.cache.get('748683141467734036').send("Please delete your message <a:catJAM:747916921785286711>")
 }
 
@@ -24,10 +29,11 @@ function getRandomInt(min, max) {
   }
 
   var lastCount = 0;
-  var lastUser = "null";
+  var lastUser = "";
+  var user = "";
 client.on('message', message =>{
+    user = message.author.id;
     if (message.author.bot)return;
-
 
    if (message.channel.name === "cat-jam") {
     if (message.content.includes(":catJAM:")){
@@ -42,42 +48,35 @@ client.on('message', message =>{
     }
        }
       if(message.channel.name.startsWith("╠counting")) {
-    var warned = false;
-       const args = message.content.slice(prefix.length).split(/ +/);
+        const args = message.content.trim().split(' ');
        var count = parseInt(args);
-       var user = message.author.id;
-
-       if (lastUser === "null") {
-           lastUser = user;
-       } else {
-           if (lastUser = user) {
-               warnUser(message.author.id);
-               warned = true;
-           }
-           lastUser = user;
-       }
-if (warned === false) {
+      if (lastUser === "") {
+          lastUser = user;
+      } else {
+          if (user === lastUser) {
+             warnUser2(user);
+          }
+          lastUser = user;
+      }
        if (lastCount === 0) {
            lastCount = count;
        } else {
-           if(count === (lastCount + 1)) {
-              
+           if(count === lastCount + 1) {
+            lastCount = count;
            } else {
-               warnUser(message.author.id);
+               warnUser1(user);
            }
-           lastCount = count;
        }
-      }
     }
     if(!message.content.startsWith(prefix)) return;
 
-    const args = message.content.slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
 
     if(command === 'ping'){
         message.channel.send('pong!');
     }
-    if (command === 'findseed' && message.channel.name === "findseed" || "find-seed"){
+    if (command === 'findseed' && message.channel.name === "findseed"){
     var i = 0;
     var eyes = 0;
     for(i = 0; i < 12; i++) {
